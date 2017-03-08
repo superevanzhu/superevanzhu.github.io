@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[指南针－架构师必备技能图谱]]></title>
       <url>%2F2017%2F02%2F24%2F35934%2F</url>
-      <content type="text"><![CDATA[我理想中的架构师，应该具备的技能，用一张图来描述 从底层开始，一层一层往上走 第一层 language：语言是工程师手中的原材料，是创造事物、实现思想的基本粒子。 algorithm &amp; data-structure：算法和数据结构。任何系统都可以抽象成为“数据＋数据的操作”。算法和数据结构要探讨的就是：如何用数据描述事物、如何高效的操作数据。 framework：框架的作用体现在工程效率上面。主要有两个：一，用来提升工程效率，因为不需要从零开始。二，整合整个团队的力量，因为制定了一些规则和约束，使得团队中不同水平的成员都可以较好的填充代码。 operation system。工程师不能操纵实际，操作的是机器。应用系统的代码归根结底是调用操作系统的接口。操作系统本身则是调用机器指令集。 database。现代的应用系统，基本上没有能离开数据库的。现代大型的系统，相当大的精力实在和“数据高效存储访问”做斗争。 network。网络的意义在于，可以无限的聚合单个微小力量。这是天然的优势。 第二层 distributed architecture：分布式架构。 distributed component：分布式组件。 第三层 common logic system：一般逻辑系统。 special logi system：特殊逻辑系统。 参考https://superevanzhu.github.io/2017/02/24/%E6%9E%B6%E6%9E%84%E5%B8%88%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD/]]></content>
+      <content type="text"><![CDATA[我理想中的架构师，应该具备的技能，用一张图来描述 从底层开始，一层一层往上走 第一层 language：语言是工程师手中的原材料，是创造事物、实现思想的基本粒子。 algorithm &amp; data-structure：算法和数据结构。任何系统都可以抽象成为“数据＋数据的操作”。算法和数据结构要探讨的就是：如何用数据描述事物、如何高效的操作数据。 framework：框架的作用体现在工程效率上面。主要有两个：一，用来提升工程效率，因为不需要从零开始。二，整合整个团队的力量，因为制定了一些规则和约束，使得团队中不同水平的成员都可以较好的填充代码。 operation system。工程师不能操纵实际，操作的是机器。应用系统的代码归根结底是调用操作系统的接口。操作系统本身则是调用机器指令集。 database。现代的应用系统，基本上没有能离开数据库的。现代大型的系统，相当大的精力实在和“数据高效存储访问”做斗争。 network。网络的意义在于，可以无限的聚合单个微小力量。这是天然的优势。 第二层 distributed architecture：分布式架构。 distributed component：分布式组件。 第三层 common logic system：一般逻辑系统。 special logi system：特殊逻辑系统。 （完）]]></content>
     </entry>
 
     
