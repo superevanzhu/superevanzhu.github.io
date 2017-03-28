@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[熟练运用mac下的快捷键]]></title>
+      <url>%2F2017%2F03%2F28%2F53453%2F</url>
+      <content type="text"><![CDATA[符号－按键对照表 符号 按键 ⇪ caps lock ⌃ control ⌥ option ⌘ command ⇧ shift 常规快捷键 tag切换： command+{和command+}说明：由于{和}按键布局，所以实际上需要同时按住shift。即：shift+command+{ 唤起splotlight快速搜索:command+ space 窗口最大化 alt+command + f 窗口全屏 ctrl+command+f 关闭窗口：command+w 退出程序：command+q 切换显示桌面：command+f3或者fn+F11 复制文件：command+c 粘贴文件：command+v 剪切文件：先复制Comamand+c，然后command+option+v(粘贴并删除原先的文件，相当于剪切) 光标至行首、行尾：command+左箭头/右箭头 光标向前、向后走一个单词：alt+左箭头/右箭头 删除文件：alt+delete 重命名文件：enter 截图 shift+command+4，然后可以鼠标选择截图区域，图片自动保存到桌面 ctrl+shift+command+4，然后可以鼠标选择截图区域，图片自动保存到剪贴板 词典取词翻译功能 则自动翻译鼠标位置的单词: Control+Command+D 浏览器下快捷键 向上、向下滚动一屏:alt+up和alt+down 切换debug模式：alt+command +j 进入mobile模式：shift+command+m 输入法 切换输入法 control + space 中文状态输入英文字母 输入字母，然后caps lock ＋ enter或者shift＋enter 中文状态输入英文标点符号，则按住caps lock ＋ 标点符号就输入了。 中文状态输入小写英文字母符号：按下caps lock。如果想输入大写字母，则同时按住shift即可。 参考 在 Mac 上使用 Multi-Touch 手势]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[程序员的网站导航]]></title>
       <url>%2F2017%2F03%2F28%2F37246%2F</url>
       <content type="text"><![CDATA[问答: desc: stackoverflow url: http://stackoverflow.com/ blog: desc: 我的blogurl: https://superevanzhu.github.io/ desc: 一个练习算法的站点url: https://www.51nod.com/index.html title: 粉丝日志desc: 作者写了很多的技术干货url: http://blog.fens.me/]]></content>
