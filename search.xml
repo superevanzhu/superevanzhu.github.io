@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[什么是YAML]]></title>
+      <url>%2F2017%2F03%2F28%2F62292%2F</url>
+      <content type="text"><![CDATA[开发人员写xml文档，总是要写成对的标签，实在是难以忍受，于是有人定义了yaml语法，造福人类。 一个xml文档例子123456789&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;blog&gt; &lt;desc&gt;我的blog&lt;/desc&gt; &lt;url&gt;https://superevanzhu.github.io/&lt;/url&gt;&lt;/blog&gt;&lt;blog&gt; &lt;desc&gt;一个练习算法的站点&lt;/desc&gt; &lt;url&gt;https://www.51nod.com/index.html&lt;/url&gt;&lt;/blog&gt; 用yaml写法12345blog: - desc: 我的blog url: https://superevanzhu.github.io/ - desc: 一个练习算法的站点 url: https://www.51nod.com/index.html 是不是既简单又直观呢 yaml的语法语法很简单 符号 含义 和json的对比 - 列表的项目 数组 : key-value项目 对象的属性 空格缩进 嵌套关系 嵌套关系 要注意的是，-和:如何是接内容的话，至少要有一个空格分隔12345//正确的写法desc: 我的blog //不正确的写法desc:我的blog 和json的转换yaml和json语法上基本是等价的，可以互相转换。例如，json版本的数据： 123456789101112&#123; &quot;blog&quot;: [ &#123; &quot;desc&quot;: &quot;我的blog&quot;, &quot;url&quot;: &quot;https://superevanzhu.github.io/&quot; &#125;, &#123; &quot;desc&quot;: &quot;一个练习算法的站点&quot;, &quot;url&quot;: &quot;https://www.51nod.com/index.html&quot; &#125; ]&#125; 参考资料 官网 YAML 简介 yaml的js解析器]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[指南针－架构师必备技能图谱]]></title>
       <url>%2F2017%2F02%2F24%2F35934%2F</url>
       <content type="text"><![CDATA[我理想中的架构师，应该具备的技能，用一张图来描述 从底层开始，一层一层往上走 第一层 language：语言是工程师手中的原材料，是创造事物、实现思想的基本粒子。 algorithm &amp; data-structure：算法和数据结构。任何系统都可以抽象成为“数据＋数据的操作”。算法和数据结构要探讨的就是：如何用数据描述事物、如何高效的操作数据。 framework：框架的作用体现在工程效率上面。主要有两个：一，用来提升工程效率，因为不需要从零开始。二，整合整个团队的力量，因为制定了一些规则和约束，使得团队中不同水平的成员都可以较好的填充代码。 operation system。工程师不能操纵实际，操作的是机器。应用系统的代码归根结底是调用操作系统的接口。操作系统本身则是调用机器指令集。 database。现代的应用系统，基本上没有能离开数据库的。现代大型的系统，相当大的精力实在和“数据高效存储访问”做斗争。 network。网络的意义在于，可以无限的聚合单个微小力量。这是天然的优势。 第二层 distributed architecture：分布式架构。 distributed component：分布式组件。 第三层 common logic system：一般逻辑系统。 special logi system：特殊逻辑系统。 （完）]]></content>
