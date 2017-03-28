@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[中文分词库jieba的使用]]></title>
+      <url>%2F2017%2F03%2F28%2F12207%2F</url>
+      <content type="text"><![CDATA[一个好用的中文分词python库：jieba 使用如下：1234import jiebaseg_list = jieba.cut(&quot;我来到北京清华大学&quot;)print(&quot;,&quot;.join(seg_list)) 输出：1我,来到,北京,清华大学 参考 [fxsjy/jieba](https://github.com/fxsjy/jieba]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[2016Gartner新兴科技技术成熟度曲线]]></title>
       <url>%2F2017%2F03%2F28%2F23192%2F</url>
       <content type="text"><![CDATA[]]></content>
