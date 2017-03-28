@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[2016Gartner新兴科技技术成熟度曲线]]></title>
+      <url>%2F2017%2F03%2F28%2F23192%2F</url>
+      <content type="text"><![CDATA[]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[什么是YAML]]></title>
       <url>%2F2017%2F03%2F28%2F62292%2F</url>
       <content type="text"><![CDATA[开发人员写xml文档，总是要写成对的标签，实在是难以忍受，于是有人定义了yaml语法，造福人类。 一个xml文档例子123456789&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&lt;blog&gt; &lt;desc&gt;我的blog&lt;/desc&gt; &lt;url&gt;https://superevanzhu.github.io/&lt;/url&gt;&lt;/blog&gt;&lt;blog&gt; &lt;desc&gt;一个练习算法的站点&lt;/desc&gt; &lt;url&gt;https://www.51nod.com/index.html&lt;/url&gt;&lt;/blog&gt; 用yaml写法12345blog: - desc: 我的blog url: https://superevanzhu.github.io/ - desc: 一个练习算法的站点 url: https://www.51nod.com/index.html 是不是既简单又直观呢 yaml的语法语法很简单 符号 含义 和json的对比 - 列表的项目 数组 : key-value项目 对象的属性 空格缩进 嵌套关系 嵌套关系 要注意的是，-和:如何是接内容的话，至少要有一个空格分隔12345//正确的写法desc: 我的blog //不正确的写法desc:我的blog 和json的转换yaml和json语法上基本是等价的，可以互相转换。例如，json版本的数据： 123456789101112&#123; &quot;blog&quot;: [ &#123; &quot;desc&quot;: &quot;我的blog&quot;, &quot;url&quot;: &quot;https://superevanzhu.github.io/&quot; &#125;, &#123; &quot;desc&quot;: &quot;一个练习算法的站点&quot;, &quot;url&quot;: &quot;https://www.51nod.com/index.html&quot; &#125; ]&#125; 参考资料 官网 YAML 简介 yaml的js解析器]]></content>
