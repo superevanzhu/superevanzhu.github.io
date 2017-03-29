@@ -19,7 +19,7 @@
     <entry>
       <title><![CDATA[程序员的网站导航]]></title>
       <url>%2F2017%2F03%2F28%2F37246%2F</url>
-      <content type="text"><![CDATA[问答: desc: stackoverflow url: http://stackoverflow.com/ blog: desc: 我的blogurl: https://superevanzhu.github.io/ desc: 一个练习算法的站点url: https://www.51nod.com/index.html title: 粉丝日志desc: 作者写了很多的技术干货url: http://blog.fens.me/]]></content>
+      <content type="text"><![CDATA[技术问答: desc: stackoverflow url: http://stackoverflow.com/ 技术博客: desc: 我的blogurl: https://superevanzhu.github.io/ desc: 一个练习算法的站点url: https://www.51nod.com/index.html desc: 粉丝日志。该作者写了很多的技术干货url: http://blog.fens.me/ 技术综合: desc: info，应该是编程方面权威性媒体了url: https://www.infoq.com/ desc: 简明现代魔法，以前是个人博客，现在内容扩展了，干货很多。url: http://www.nowamagic.net/ desc: 鸟哥笔记。url: http://www.niaogebiji.com/ desc: 阿迪优。综合性的文章，干货很多url: https://www.adiyou.com/ 非技术: desc: 李叫兽的知乎专栏，主要是营销和用户行为方面的干货url: https://zhuanlan.zhihu.com/lijiaoshou desc: 市场部。一个市场相关的站点。url: http://www.shichangbu.com/ desc: 一个投资业人的知乎专栏。url: https://zhuanlan.zhihu.com/FellowPlus]]></content>
     </entry>
 
     
