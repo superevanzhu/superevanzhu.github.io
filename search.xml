@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[mac下如何安装老版本chrome浏览器]]></title>
       <url>%2F2017%2F04%2F07%2F42976%2F</url>
-      <content type="text"><![CDATA[最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54可以的，chrome-55,56,57(2017-04－06时最新)，都有这个问题。 所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新 禁用自动更新1defaults write com.google.Keystone.Agent checkInterval 0 以后哪天chrome新版本解决了这个问题，也是可以恢复自动更新的1defaults write com.google.Keystone.Agent checkInterval 18000 或者手动更新，执行/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/目录下CheckForUpdatesNow.command文件（双击即可执行） 下载并安装chrome-54离线安装包。可以去这个站点找http://google-chrome.en.uptodown.com/mac/old (完)]]></content>
+      <content type="text"><![CDATA[最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54可以的，chrome-55,56,57(2017-04－06时最新)，都有这个问题。 所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新 一、禁用自动更新1defaults write com.google.Keystone.Agent checkInterval 0 以后哪天chrome新版本解决了这个问题，也是可以恢复自动更新的1defaults write com.google.Keystone.Agent checkInterval 18000 或者手动更新，执行/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/目录下CheckForUpdatesNow.command文件（双击即可执行） 二、下载并安装chrome-54离线安装包可以去这个站点找http://google-chrome.en.uptodown.com/mac/old 三、chrome更新的注意问题上面这种禁用自动更新不够彻底，如果点菜单栏，帮助－查看“关于Google chrome”，chrome还是会更新到最新版本的。所以，如果不想重来一次的话，不要手贱。 (完)]]></content>
     </entry>
 
     
