@@ -89,20 +89,20 @@
 
 <meta name="description" content="最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54,55可以的，chrome-56,57(2017-04－06时最新)，都有这个问题。
 所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新
-一、禁用自动更新1defaults write com">
+一、下载并安装chrome-54离线安装包可以去这个站">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac下如何安装老版本chrome浏览器">
 <meta property="og:url" content="http://superevanzhu.github.io/2017/04/07/42976/index.html">
 <meta property="og:site_name" content="superevanzhu'blog">
 <meta property="og:description" content="最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54,55可以的，chrome-56,57(2017-04－06时最新)，都有这个问题。
 所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新
-一、禁用自动更新1defaults write com">
-<meta property="og:updated_time" content="2017-04-10T03:05:40.000Z">
+一、下载并安装chrome-54离线安装包可以去这个站">
+<meta property="og:updated_time" content="2017-04-12T02:08:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下如何安装老版本chrome浏览器">
 <meta name="twitter:description" content="最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54,55可以的，chrome-56,57(2017-04－06时最新)，都有这个问题。
 所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新
-一、禁用自动更新1defaults write com">
+一、下载并安装chrome-54离线安装包可以去这个站">
 
 
 
@@ -111,7 +111,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -426,11 +426,18 @@
       
         <p>最近，使用mac版chrome浏览器调试页面时发现一个bug，在调试工具－网络面板中，看不到跨域的ajax请求的响应数据，非常影响开发效率。经过多次尝试发现，chrome-54,55可以的，chrome-56,57(2017-04－06时最新)，都有这个问题。</p>
 <p>所以决定回退到chrome-54，由于chrome会自动更新，所以要先关闭自动更新</p>
-<h3 id="一、禁用自动更新"><a href="#一、禁用自动更新" class="headerlink" title="一、禁用自动更新"></a>一、禁用自动更新</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">defaults write com.google.Keystone.Agent checkInterval 0</div></pre></td></tr></table></figure>
-<p>以后哪天chrome新版本解决了这个问题，也是可以恢复自动更新的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">defaults write com.google.Keystone.Agent checkInterval 18000</div></pre></td></tr></table></figure></p>
-<p>或者手动更新，执行<br><code>/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/</code>目录下<code>CheckForUpdatesNow.command</code>文件（双击即可执行）</p>
-<h3 id="二、下载并安装chrome-54离线安装包"><a href="#二、下载并安装chrome-54离线安装包" class="headerlink" title="二、下载并安装chrome-54离线安装包"></a>二、下载并安装chrome-54离线安装包</h3><p>可以去这个站点找<br><a href="http://google-chrome.en.uptodown.com/mac/old" target="_blank" rel="external">http://google-chrome.en.uptodown.com/mac/old</a></p>
-<h3 id="三、chrome更新的注意问题"><a href="#三、chrome更新的注意问题" class="headerlink" title="三、chrome更新的注意问题"></a>三、chrome更新的注意问题</h3><p>上面这种禁用自动更新不够彻底，如果点菜单栏，帮助－查看“关于Google chrome”，chrome还是会更新到最新版本的。所以，如果不想重来一次的话，不要手贱。</p>
+<h2 id="一、下载并安装chrome-54离线安装包"><a href="#一、下载并安装chrome-54离线安装包" class="headerlink" title="一、下载并安装chrome-54离线安装包"></a>一、下载并安装chrome-54离线安装包</h2><p>可以去这个站点找：<a href="http://google-chrome.en.uptodown.com/mac/old" target="_blank" rel="external">http://google-chrome.en.uptodown.com/mac/old</a></p>
+<p>注意，安装好了先配置好，再启动chrome。</p>
+<h2 id="二、禁用自动更新"><a href="#二、禁用自动更新" class="headerlink" title="二、禁用自动更新"></a>二、禁用自动更新</h2><p>默认情况下，chrome会定时检查新版本，有则自动升级。怎么关掉呢？如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 将检查更新的时间间隔设置为0</div><div class="line">defaults write com.google.Keystone.Agent checkInterval 0</div></pre></td></tr></table></figure></p>
+<p>可以测试一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">defaults read com.google.Keystone.Agent checkInterval</div></pre></td></tr></table></figure></p>
+<p>返回0说明设置成功了。</p>
+<p>这样自动检查更新就禁用了。</p>
+<h2 id="三、禁用触发式的更新"><a href="#三、禁用触发式的更新" class="headerlink" title="三、禁用触发式的更新"></a>三、禁用触发式的更新</h2><p>即使禁用了自动更新，如果一旦你进入<code>chrome://settings</code>或者<code>chrome://help</code>页面，还是会触发chrome更新，很无语是吧。怎么禁用呢？</p>
+<p>更新是通过一个叫<code>GoogleSoftwareUpdateAgent</code>的可执行文件完成的，取消它的执行权限就行了，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd /Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/GoogleSoftwareUpdateAgent.app/Contents/MacOS</div><div class="line">sudo chmod a-x GoogleSoftwareUpdateAgent</div></pre></td></tr></table></figure></p>
+<p>测试一下，进入<code>chrome://help/</code>页面，可以看到“正在更新Google chrome…”的提示一直在哪儿转，但是永远也别想更新，哈哈。</p>
+<p>终于可以放心的使用老版本的chrome了。</p>
+<h2 id="四、附：恢复更新和手动更新"><a href="#四、附：恢复更新和手动更新" class="headerlink" title="四、附：恢复更新和手动更新"></a>四、附：恢复更新和手动更新</h2><p>以后哪天chrome新版本解决了这个问题，也是可以恢复更新的<br>恢复自动更新：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">defaults write com.google.Keystone.Agent checkInterval 18000</div></pre></td></tr></table></figure></p>
+<p>或者手动更新，恢复GoogleSoftwareUpdateAgent文件的执行权限，然后执行<br><code>/Library/Google/GoogleSoftwareUpdate/GoogleSoftwareUpdate.bundle/Contents/Resources/CheckForUpdatesNow.command</code>文件（双击即可执行）</p>
 <p>(完)</p>
 
       
@@ -632,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、禁用自动更新"><span class="nav-number">1.</span> <span class="nav-text">一、禁用自动更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、下载并安装chrome-54离线安装包"><span class="nav-number">2.</span> <span class="nav-text">二、下载并安装chrome-54离线安装包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、chrome更新的注意问题"><span class="nav-number">3.</span> <span class="nav-text">三、chrome更新的注意问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、下载并安装chrome-54离线安装包"><span class="nav-number">1.</span> <span class="nav-text">一、下载并安装chrome-54离线安装包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、禁用自动更新"><span class="nav-number">2.</span> <span class="nav-text">二、禁用自动更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、禁用触发式的更新"><span class="nav-number">3.</span> <span class="nav-text">三、禁用触发式的更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、附：恢复更新和手动更新"><span class="nav-number">4.</span> <span class="nav-text">四、附：恢复更新和手动更新</span></a></li></ol></div>
             
 
           </div>
