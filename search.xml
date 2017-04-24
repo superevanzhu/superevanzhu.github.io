@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[送自己-洛克菲勒警句]]></title>
+      <url>%2F2017%2F04%2F24%2F33974%2F</url>
+      <content type="text"><![CDATA[受过教育而没有丝毫影响力的人，是一文不值的废物！ 你要认识到自己想成为什么人，认识到自己该做什么。接下来是调度自己所拥有的知识资源，赋予自己远大的目标，让自己成为一个能够保护别人的人——唯保护者才会强大，就如每个父亲，在孩子面前都天然强大一样。是你人生的使命与责任，让你强大，赋予你气场及尊严，从此不再将侥幸之心寄望于他人，而是坦然站起，直视对方，打好自己这一生，必须要赢的一每一场战役！ ——美国石油大亨洛克菲勒]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[什么是jsonl格式]]></title>
       <url>%2F2017%2F04%2F10%2F3436%2F</url>
       <content type="text"><![CDATA[JSON Lines文件，是在json格式基础上做了几个调整： 每一行都是合法的json值。 以\n作为换行符。 utf-8编码。 这样，尤其适合作为日志文件，或者管道文件 一个jsonl文件的例子12345[&quot;Name&quot;, &quot;Session&quot;, &quot;Score&quot;, &quot;Completed&quot;][&quot;Gilbert&quot;, &quot;2013&quot;, 24, true][&quot;Alexa&quot;, &quot;2013&quot;, 29, true][&quot;May&quot;, &quot;2012B&quot;, 14, false][&quot;Deloise&quot;, &quot;2012A&quot;, 19, true] 默认后缀名是.jsonl 参考jsonlines.org]]></content>
