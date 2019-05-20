@@ -80,12 +80,12 @@
 
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="Mr.Z&#39; Blog">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="Mr.Z&#39; Blog">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Mr.Z&#39; Blog">
 
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <title>Hexo</title>
+  <title>Mr.Z' Blog</title>
   
 
 
@@ -152,7 +152,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Hexo</span>
+        <span class="site-title">Mr.Z' Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -198,9 +198,41 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -229,16 +261,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/异步调用最终一致性-mq+独立消息的方案/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/什么是jsonl格式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -248,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/异步调用最终一致性-mq+独立消息的方案/" itemprop="url">异步调用最终一致性-mq+独立消息的方案</a></h1>
+                <a class="post-title-link" href="/2019/05/20/什么是jsonl格式/" itemprop="url">什么是jsonl格式</a></h1>
         
 
         <div class="post-meta">
@@ -260,8 +292,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:42+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:29:07+08:00">
+                2019-05-20
               </time>
             
 
@@ -300,110 +332,22 @@
       
         
           
-            <p>目的：推演使用独立消息实现异步调用最终一致性</p>
-<p>[[toc]]</p>
-<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>我叫它“独立消息”，区别于本地消息，有些地方叫“可靠消息”。</p>
-<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>用户注册成功，给用户发送一张代金券。其中，用户系统(user)和优惠券系统(coupon)是连个独立的系统，通过mq实现交互。</p>
-<p>user系统，这里又称上游。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ok = user.create()</span><br><span class="line"></span><br><span class="line">if ok :</span><br><span class="line">    mq.send(&quot;user_create&quot;,userId)</span><br></pre></td></tr></table></figure></p>
-<p>coupon系统，这里又称下游系统。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mq.listen(&quot;userId&quot;):</span><br><span class="line">    coupon.create(userId)</span><br></pre></td></tr></table></figure></p>
-<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><p>上游的目的是，确保用户创建成功，消息也会发送到下游。</p>
-<p>不使用本地消息表，而是一个独立消息服务，假设叫做 remote_event。</p>
-<p>上游代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">trace_id = 1234567</span><br><span class="line">userdata = &#123;&#125;</span><br><span class="line"></span><br><span class="line">if remote_event.createNew(trace_id,userdata):</span><br><span class="line">    </span><br><span class="line">    if user.create(userdata):</span><br><span class="line">        </span><br><span class="line">        if remote_event.createDoneAndRemoveNew(trace_id,userdata):</span><br><span class="line">            </span><br><span class="line">            ok = mq.send(&quot;user_create&quot;)</span><br><span class="line">            </span><br><span class="line">            if ok:</span><br><span class="line">                </span><br><span class="line">                remote_event.removeDone(trace_id)</span><br><span class="line">                return true;</span><br></pre></td></tr></table></figure></p>
-<p>说明</p>
-<ol>
-<li><p>创建不同状态的记录，相当于各整个业务逻辑打点。这样定时任务，可以根据记录，判断业务逻辑是否执行完成，以及哪个环节中断的。</p>
-</li>
-<li><p>remote_event.removeDone(trace_id)，只是为了防止事件系统表不断膨胀，不在这里删除也没关系，可以弄一个定时任务来删除。</p>
-</li>
-<li><p>为什么是不创建不同状态的记录，而不是更新原记录的状态呢？// 其实也可以的。只会在独立消息系统里面，会不断的删除new记录，可能会影响业务的更新操作。</p>
-</li>
-<li><p>这里的mq.send操作，其实也可以不要的。反正独立消息系统，里面会定时发送的。</p>
-</li>
-</ol>
-<p>异常情况呢？</p>
-<ol>
-<li><p>remote_event创建new记录成功，系统宕机。系统重启后，系统多出了new状态的记录。</p>
-</li>
-<li><p>用户创建成功，系统宕机。系统重启，系统中有new状态的记录。</p>
-</li>
-<li><p>远程事件更新成功，系统宕机。系统重启，系统中有done状态的记录。</p>
-</li>
-<li><p>mq发送消息之后，系统宕机。到这里，业务其实已经做完了，下游能消费，OK的。</p>
-</li>
-</ol>
-<p>独立消息系统</p>
-<ol>
-<li><p>首先它维持一个事件表。</p>
-</li>
-<li><p>其次定时扫描new、done状态的记录。new记录需要去业务系统反查，决定下一步操作。</p>
-</li>
-</ol>
-<p>代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">if createNew():</span><br><span class="line">    event.create(trace_id,&quot;new&quot;)</span><br><span class="line"></span><br><span class="line">if createDoneAndRemoveNew():</span><br><span class="line">    begin transaction:</span><br><span class="line">        event.create(trace_id,&quot;done&quot;)</span><br><span class="line">        event.remove(trace_id,&quot;new&quot;)</span><br><span class="line">    commit</span><br><span class="line"></span><br><span class="line">loop_check_new_event():</span><br><span class="line">    switch back_check() :</span><br><span class="line">        &quot;normal&quot;:skip</span><br><span class="line">        &quot;init created&quot;:event.remove(this)</span><br><span class="line">        &quot;created after user&quot;: mq.send()</span><br><span class="line"></span><br><span class="line">loop_check_done_event():</span><br><span class="line">    mq.send();</span><br><span class="line">    event.remove(this)</span><br></pre></td></tr></table></figure>
-<p>说明：</p>
-<ol>
-<li><p>createNew方法，负责创建new状态的记录。</p>
-</li>
-<li><p>createDoneAndRemoveNew方法，负责创建done记录，并删除new记录。用事务保证原子性。</p>
-</li>
-<li><p>循环检查db中的new记录。系统中的new记录，有几种情形。</p>
-<ol>
-<li><p>正常创建的，业务系统后续会自己删除。事件碰巧被捞出来捞。这个要放过。比如可以将它的超时时间，延长一倍，避免下次循环又被捞到了。</p>
-</li>
-<li><p>初始创建后，业务系统宕机捞，遗留的记录。这种要删掉。</p>
-</li>
-<li><p>用户创建成功之后，系统宕机，这种要替它发送mq。</p>
-</li>
-</ol>
-</li>
-<li><p>循环检查db中的done记录。其实done记录没什么用，是因为业务系统还没来得及删除，就宕机了。直接删除就行。</p>
-</li>
-</ol>
-<p>异常情况</p>
-<ol>
-<li><p>createNew和 createDoneAndRemoveNew，都是原子操作，异常没影响。</p>
-</li>
-<li><p>loop_check_new_event其实也是原子操作。</p>
-</li>
-<li><p>loop_check_done_event，可能mq发送后系统宕机，导致done记录没有删除。下次循环有发送了一次mq。最终的情况是，总会被删除，mq重发多次。</p>
-</li>
-</ol>
-<h2 id="回查的逻辑"><a href="#回查的逻辑" class="headerlink" title="回查的逻辑"></a>回查的逻辑</h2><p>前面我们知道，好几种异常情况会导致存在new状态记录。怎么区分new记录是正常的、初始留下的、创建用户之后留下的呢？</p>
-<p>看业务代码片段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">trace_id = 1234567</span><br><span class="line">userdata = &#123;&#125;</span><br><span class="line"></span><br><span class="line">if remote_event.createNew(trace_id,userdata):</span><br><span class="line">    </span><br><span class="line">    if user.create(userdata):</span><br><span class="line">    </span><br><span class="line">        if remote_event.createDoneAndRemoveNew(trace_id,userdata):</span><br></pre></td></tr></table></figure></p>
-<p>正常执行成功remote_event.createDoneAndRemoveNew(trace_id)，new记录会被删除。既然遗留下来，说明系统还没走到这里，或者系统在这之前宕机，可能在user.create()之前，或之后。</p>
-<p>所以，需要先判断，user有没有创建成功，很简单，根据userId查一下有没有就行了。</p>
-<blockquote>
-<p>这就是为什么，事件里面要记录userData数据啦。</p>
-</blockquote>
-<p>如果业务操作没有执行，则要进一步判断new还没运行到呢，还是创建用户之前异常中断了。通过事件记录的时间戳就可以判断。举个例子，已经过去了10秒，我可以认为你这个就是死记录了。</p>
-<p><strong>有人可能会问了，你这是创建记录，当然好查了，如果是编辑呢、或者删除呢？其实道理一样。</strong></p>
-<ul>
-<li><p>如果是更新，也是一样，查这个ID的记录和更新时间，对不对得上。</p>
-</li>
-<li><p>如果是删除，确认这条记录已经不在了，或者状态改成了失效（取决于业务系统是物理删除还是逻辑删除）</p>
-</li>
-</ul>
-<p><strong>如果业务操作是批量的，怎么处理？</strong></p>
-<p>创建多条事件记录就是啦。不过要注意的是，应该有事件服务那边提供接口，保证事务性。</p>
-<h1 id="下游系统"><a href="#下游系统" class="headerlink" title="下游系统"></a>下游系统</h1><p>下游其实很简单，消费mq消息，然后确认就行了。当然，还需要实现幂等性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mq.listen(&quot;user_create_msg&quot;):</span><br><span class="line">    if coupon_event.exist(id):</span><br><span class="line">        mq.ack()</span><br><span class="line">        return </span><br><span class="line"></span><br><span class="line">    begin transaction:</span><br><span class="line">        coupon.create()</span><br><span class="line">        coupon_event.create()</span><br><span class="line">    commit</span><br><span class="line">    </span><br><span class="line">    if transaction_commited:</span><br><span class="line">        mq.ack()</span><br></pre></td></tr></table></figure></p>
-<p>说明：</p>
-<ol>
-<li>有些可靠性方案，下游也会和可靠消息交互，其实是没必要的，增加了复杂性。可靠消息的确认由上游和可靠消息搞定就行了。</li>
-</ol>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>这种方式本质是，通过一个外部的记录，给业务逻辑各环节“打点”。然后通过一个定时任务，分析这些记录，判断要不要替业务系统发送mq。</p>
-<p><strong>和本地消息表的方案对比</strong></p>
-<p>本地消息表的记录，是和业务操作严格一一对应的。而这个方案没那么“精确”。所以需要额外的回查判断。</p>
-<p><strong>可靠消息方案的变形</strong></p>
-<p>这个独立消息（可靠消息）方案，有些地方使用微调的。比如，（1）上游其实可以不用发mq，由可靠消息发送。（2）有些方案里面，下游会和可靠消息交互，其实不必要，增加了复杂性。比如<a href="https://segmentfault.com/a/1190000011479826" target="_blank" rel="noopener">这篇文章</a>。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><p><a href="https://juejin.im/post/5c0a11396fb9a049d05d8af2" target="_blank" rel="noopener">分布式事务：基于可靠消息服务</a></p>
-</li>
-<li><p><a href="https://github.com/7le/shine-mq" target="_blank" rel="noopener">7le/shine-mq开源的实现</a></p>
-</li>
-</ul>
-<p>-END-</p>
+          JSON Lines文件，是在json格式基础上做了几个调整：
 
-          
+每一行都是合法的json值。
+以\n作为换行符。
+utf-8编码。
+
+这样，尤其适合作为日志文件，或者管道文件
+一个jsonl文件的例子12345[&quot;Name&quot;, &quot;Session&quot;, &quo
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/什么是jsonl格式/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -450,16 +394,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/e签宝公司研究/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/程序员的网址导航/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -469,7 +413,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/e签宝公司研究/" itemprop="url">e签宝公司研究</a></h1>
+                <a class="post-title-link" href="/2019/05/20/程序员的网址导航/" itemprop="url">程序员的网址导航</a></h1>
         
 
         <div class="post-meta">
@@ -481,8 +425,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:42+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:28:33+08:00">
+                2019-05-20
               </time>
             
 
@@ -521,13 +465,24 @@
       
         
           
-            <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>杭州天谷信息科技有限公司</p>
-<h1 id="业务和商业模式"><a href="#业务和商业模式" class="headerlink" title="业务和商业模式"></a>业务和商业模式</h1><p>国内最早从事电子签名行业的专业公司。<br>公司旗下的 e 签宝平台（<a href="http://www.tsign.cn）是全国最大的第三方电子签名平台，解决了互联网的可信电子签名问题。e" target="_blank" rel="noopener">www.tsign.cn）是全国最大的第三方电子签名平台，解决了互联网的可信电子签名问题。e</a> 签宝依托移动互联网和云计算，改变了中国数千年在纸上签名盖章的习惯，为用户提供“合法合规，简单易用”的电子文书签署和电子数据存证服务。<br>公司的愿景是让签名盖章电子化网络化，成为互联网诚信基石</p>
-<h1 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h1><p>实现签名场景的无纸化</p>
-<p>比如，银行交易、借贷、合同等涉及到签名的。<br>e签宝已服务超过150万家企业用户，个人用户突破1.2亿，累计签署量42亿次，日均签署量2000万</p>
-<h1 id="竞争优势"><a href="#竞争优势" class="headerlink" title="竞争优势"></a>竞争优势</h1><h1 id="管理团队和技术团队"><a href="#管理团队和技术团队" class="headerlink" title="管理团队和技术团队"></a>管理团队和技术团队</h1><h1 id="技术背景"><a href="#技术背景" class="headerlink" title="技术背景"></a>技术背景</h1><h1 id="产品的使用流程"><a href="#产品的使用流程" class="headerlink" title="产品的使用流程"></a>产品的使用流程</h1><p># </p>
+          [[toc]]
+技术问答:
 
-          
+desc: stackoverflow
+url: http://stackoverflow.com/
+
+技术博客:
+
+desc: 我的blogurl: https://superevanzhu.github.io/
+desc: 一个练习算法的站点url: https:/
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/程序员的网址导航/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -574,16 +529,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/d/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/计算机编译技术三大圣经/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -593,7 +548,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/d/" itemprop="url">d</a></h1>
+                <a class="post-title-link" href="/2019/05/20/计算机编译技术三大圣经/" itemprop="url">计算机编译技术三大圣经</a></h1>
         
 
         <div class="post-meta">
@@ -605,8 +560,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:42+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:26:08+08:00">
+                2019-05-20
               </time>
             
 
@@ -645,8 +600,16 @@
       
         
           
-            
-          
+          ﻿计算机编译技术三大圣经
+1.龙书(Dragon book)书名是Compilers: Principles,Techniques,and Tools作者是：Alfred V.Aho,Ravi Sethi,Jeffrey D.Ullman国内所有的编译原理教材都是抄的它的，而且只是抄了最简单的前端的
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/计算机编译技术三大圣经/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -693,16 +656,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/c/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/google搜索的操作符/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -712,7 +675,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/c/" itemprop="url">c</a></h1>
+                <a class="post-title-link" href="/2019/05/20/google搜索的操作符/" itemprop="url">google搜索的操作符</a></h1>
         
 
         <div class="post-meta">
@@ -724,8 +687,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:38+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:20:55+08:00">
+                2019-05-20
               </time>
             
 
@@ -764,8 +727,19 @@
       
         
           
-            
-          
+          [[toc]]
+一、操作符特殊含义的符号。
++ 强制搜索强制使用关键词搜索。例如：start +how。和精确匹配有点像。默认情况下，Google会忽略is,am,how此类的常用词。
+~ 同义词关键词前加波浪线。如：~table 。
+* 通配符如：Google was founded in *和&
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/google搜索的操作符/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -812,16 +786,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/b/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/linux搭建git服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -831,7 +805,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/b/" itemprop="url">b</a></h1>
+                <a class="post-title-link" href="/2019/05/20/linux搭建git服务器/" itemprop="url">linux搭建git服务器</a></h1>
         
 
         <div class="post-meta">
@@ -843,8 +817,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:34+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:19:19+08:00">
+                2019-05-20
               </time>
             
 
@@ -883,8 +857,20 @@
       
         
           
-            
-          
+          linux搭建git服务器Git是分布式的代码管理系统。所谓分布式，就是没有中心点，所有机器都可以成为“服务器”。
+下面我们以centos7为例，一步步配置git服务器。
+一、如何搭建Git
+首先，安装git。简单起见，使用yum安装就可以了。如下：
+ 1yum -y install git
+ 当然
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/linux搭建git服务器/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -931,16 +917,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/a/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/使用markdown愉快的写文档/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -950,7 +936,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/a/" itemprop="url">a</a></h1>
+                <a class="post-title-link" href="/2019/05/20/使用markdown愉快的写文档/" itemprop="url">使用markdown愉快的写文档</a></h1>
         
 
         <div class="post-meta">
@@ -962,8 +948,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:31+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:19:17+08:00">
+                2019-05-20
               </time>
             
 
@@ -1002,8 +988,36 @@
       
         
           
-            
           
+
+标题
+无序列表
+有序列表
+文字的样式
+引用文字
+另一种文字引用
+代码块
+行内代码
+水平分割线
+可点击链接
+另一种链接
+插入图片链接
+反斜杠转义
+更多非标准语法
+表格
+Markdown编辑器
+参考
+
+
+标题在文字前面加上1~6个#号。可以表现出标题的效果。1个#是最大的标题，6个#是最小的标题。注
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/使用markdown愉快的写文档/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1050,16 +1064,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/9/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/js实战-正则表达式入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="zhuwang">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="Mr.Z' Blog">
     </span>
 
     
@@ -1069,7 +1083,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/18/9/" itemprop="url">9</a></h1>
+                <a class="post-title-link" href="/2019/05/20/js实战-正则表达式入门/" itemprop="url">js实战-正则表达式入门</a></h1>
         
 
         <div class="post-meta">
@@ -1081,8 +1095,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:27+08:00">
-                2019-05-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T10:15:01+08:00">
+                2019-05-20
               </time>
             
 
@@ -1121,365 +1135,45 @@
       
         
           
-            
-          
-        
-      
-    </div>
-    
-    
-    
+          目的：熟练掌握js的正则表达式
+目录
 
-    
 
-    
+语法
+修饰符
+方括号
+元字符
+方括号中的.
 
-    
 
-    <footer class="post-footer">
-      
+转义字符
+匹配位置
+防止过度匹配
+子模式
+子模式的引用
+非获取匹配
 
-      
 
-      
+例子
 
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
 
+常用问题
+如何匹配任意字符，包含换行符？
 
-    
-      
 
-  
+参考
 
-  
-  
-  
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/18/8/" itemprop="url">8</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:20+08:00">
-                2019-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/18/7/" itemprop="url">7</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:16+08:00">
-                2019-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/18/6/" itemprop="url">6</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-18T14:43:12+08:00">
-                2019-05-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
+语法直接量语法1/pattern/attributes
+或者，创建 Re
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/20/js实战-正则表达式入门/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1516,10 +1210,6 @@
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 
 
           </div>
@@ -1552,7 +1242,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-author-name" itemprop="name">zhuwang</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -1563,7 +1253,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1608,7 +1298,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">zhuwang</span>
 
   
 </div>
@@ -1765,6 +1455,323 @@
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 
