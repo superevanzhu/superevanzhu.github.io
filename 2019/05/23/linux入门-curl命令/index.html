@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[[toc]] curl命令辅助编程入门curl是一种命令行工具，作用是发出网络请求，然后得到返回的数据，显示在”标准输出”（stdout）上面。 一、发送请求根据Http协议，请求可以有GET,POST,PUT,DELETE等不同的动作。当然，最常用的是GET和POST。 发送GET请求12curl www.sina.comcurl &amp;quot;www.sina.com?name=zhu&amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux入门-curl命令">
+<meta property="og:url" content="http://yoursite.com/2019/05/23/linux入门-curl命令/index.html">
+<meta property="og:site_name" content="Mr.Z&#39; Blog">
+<meta property="og:description" content="[[toc]] curl命令辅助编程入门curl是一种命令行工具，作用是发出网络请求，然后得到返回的数据，显示在”标准输出”（stdout）上面。 一、发送请求根据Http协议，请求可以有GET,POST,PUT,DELETE等不同的动作。当然，最常用的是GET和POST。 发送GET请求12curl www.sina.comcurl &amp;quot;www.sina.com?name=zhu&amp;quo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-23T07:51:54.275Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux入门-curl命令">
+<meta name="twitter:description" content="[[toc]] curl命令辅助编程入门curl是一种命令行工具，作用是发出网络请求，然后得到返回的数据，显示在”标准输出”（stdout）上面。 一、发送请求根据Http协议，请求可以有GET,POST,PUT,DELETE等不同的动作。当然，最常用的是GET和POST。 发送GET请求12curl www.sina.comcurl &amp;quot;www.sina.com?name=zhu&amp;quo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/23/linux入门-curl命令/">
+
+
+
+
+
+  <title>linux入门-curl命令 | Mr.Z' Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Mr.Z' Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/23/linux入门-curl命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhuwang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Mr.Z' Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux入门-curl命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-23T15:51:26+08:00">
+                2019-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[[toc]]</p>
+<h1 id="curl命令辅助编程入门"><a href="#curl命令辅助编程入门" class="headerlink" title="curl命令辅助编程入门"></a>curl命令辅助编程入门</h1><p>curl是一种命令行工具，作用是发出网络请求，然后得到返回的数据，显示在”标准输出”（stdout）上面。</p>
+<h1 id="一、发送请求"><a href="#一、发送请求" class="headerlink" title="一、发送请求"></a>一、发送请求</h1><p>根据Http协议，请求可以有GET,POST,PUT,DELETE等不同的动作。当然，最常用的是GET和POST。</p>
+<h2 id="发送GET请求"><a href="#发送GET请求" class="headerlink" title="发送GET请求"></a>发送GET请求</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl www.sina.com</span><br><span class="line">curl &quot;www.sina.com?name=zhu&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="发送POST请求"><a href="#发送POST请求" class="headerlink" title="发送POST请求"></a>发送POST请求</h2><p>POST请求数据，可以采用<code>url-encoded</code>的形式，也可以采用<code>multipart</code>的形式。这二者分别对一个MIMETYPE中的<code>application/x-www-form-urlencoded</code>和<code>multipart/form-data</code>。</p>
+<h3 id="发送数据格式为url-encoded的POST请求"><a href="#发送数据格式为url-encoded的POST请求" class="headerlink" title="发送数据格式为url-encoded的POST请求"></a>发送数据格式为<code>url-encoded</code>的POST请求</h3><p>适合用来POST字符串。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -d &quot;brand=nike&amp;color=red&amp;size=11&quot; www.sina.com</span><br><span class="line">curl --data &quot;brand=nike&quot; -d &quot;color=red&quot; -d &quot;size=11&quot; www.sina.com</span><br><span class="line">curl --data-ascii &quot;brand=nike&amp;color=red&amp;size=11&quot; www.sina.com</span><br><span class="line">curl --data-raw &quot;brand=nike&amp;color=red&amp;size=11&quot; www.sina.com</span><br><span class="line">curl --data-urlencode &quot;brand=nike&amp;color=red&amp;size=11&quot; www.sina.com</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>-d</code>, <code>--data</code> 和<code>--data-ascii</code>是一样的，都是POST ascii字符。</li>
+<li><code>--data-raw</code> 和<code>--data-ascii</code>几乎相同，差别在于，它不会对<code>@</code>特殊处理（raw是不处理的意思）。</li>
+<li><code>--data-binary</code> ： post纯二进制数据时用这个。</li>
+<li><code>--data-urlencode</code> : 对参数值进行urlencode编码。</li>
+</ul>
+<p>使用<code>--data-urlencode</code>会自动对参数值进行urlcode，所以这样是可以的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data-urlencode &quot;name=I am Daniel&quot; http://www.example.com</span><br></pre></td></tr></table></figure></p>
+<h3 id="post发送json格式数据"><a href="#post发送json格式数据" class="headerlink" title="post发送json格式数据"></a>post发送json格式数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Content-Type: application/json&quot; -X POST -d &apos;&#123;&quot;username&quot;:&quot;xyz&quot;,&quot;password&quot;:&quot;xyz&quot;&#125;&apos; url</span><br></pre></td></tr></table></figure>
+<p>指明-H “Content-Type: application/json”即可。</p>
+<h3 id="发送数据格式为multipart的POST请求"><a href="#发送数据格式为multipart的POST请求" class="headerlink" title="发送数据格式为multipart的POST请求"></a>发送数据格式为<code>multipart</code>的POST请求</h3><p>适合用来上传文件（当然上传字符串也是可以的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -F &quot;image=@nikes.png;color=red&quot; www.sina.com</span><br><span class="line">curl --form &quot;image=@nikes.png;color=red&quot; www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>-F –form是一样的。</p>
+<h3 id="发送空数据的POST请求"><a href="#发送空数据的POST请求" class="headerlink" title="发送空数据的POST请求"></a>发送空数据的POST请求</h3><p>不带数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST www.sina.com</span><br><span class="line">curl --request POST www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>或者传一个空字符串进去：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data &apos;&apos; www.sina.com</span><br></pre></td></tr></table></figure></p>
+<h2 id="发送其他类型的请求"><a href="#发送其他类型的请求" class="headerlink" title="发送其他类型的请求"></a>发送其他类型的请求</h2><p>curl默认的动作是GET，可以使用–request或者-X设置其他的动作。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl --request DELETE http://example.org/</span><br><span class="line">curl -X DELETE http://example.org/</span><br><span class="line">curl -X POST http://example.org/</span><br></pre></td></tr></table></figure>
+<p>对于POST时，直接加<code>--data</code>或其他参数，相当于快捷的方式。</p>
+<h2 id="数据分开写"><a href="#数据分开写" class="headerlink" title="数据分开写"></a>数据分开写</h2><p>数据可以分开多次写，CURL会自动拼接。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data &apos;name=zhu&apos; --data &apos;gender=male&apos; www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>等价于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data &apos;name=zhu&amp;gender=male&apos; www.sina.com</span><br></pre></td></tr></table></figure></p>
+<h1 id="二、设置请求附加信息"><a href="#二、设置请求附加信息" class="headerlink" title="二、设置请求附加信息"></a>二、设置请求附加信息</h1><p>通过CURL可以设置请求可以带上什么样的请求头。</p>
+<h2 id="设置请求头"><a href="#设置请求头" class="headerlink" title="设置请求头"></a>设置请求头</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --header &quot;Content-Type:application/json&quot; http://example.com</span><br><span class="line">curl -H &quot;Content-Type:application/json&quot; http://example.com</span><br></pre></td></tr></table></figure>
+<p>某些常用的请求头，curl提供了快捷的参数。例如：</p>
+<p>多个请求请求头，也只能一个一个设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &quot;Content-Type:application/json&quot; -H &quot;x-token:123&quot; http://example.com</span><br></pre></td></tr></table></figure></p>
+<h2 id="设置referer"><a href="#设置referer" class="headerlink" title="设置referer"></a>设置referer</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --referer http://www.example.come http://www.example.com</span><br></pre></td></tr></table></figure>
+<p>当然也可以用–header参数设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --header &quot;Referer:http://www.sina.com&quot; http://example.com</span><br></pre></td></tr></table></figure></p>
+<h2 id="设置user-agent"><a href="#设置user-agent" class="headerlink" title="设置user-agent"></a>设置<code>user-agent</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --user-agent &quot;Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)&quot; [URL]</span><br></pre></td></tr></table></figure>
+<h2 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --cookie &quot;name=Daniel&quot; http://www.example.com</span><br><span class="line">curl --cookie stored_cookies_in_file http://www.example.com</span><br></pre></td></tr></table></figure>
+<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --location http://www.example.com</span><br><span class="line">curl -L http://www.example.com</span><br></pre></td></tr></table></figure>
+<p>如果这个链接响应中包含重定向的话，继续跳转。</p>
+<h2 id="发送https请求"><a href="#发送https请求" class="headerlink" title="发送https请求"></a>发送https请求</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://secure.example.com</span><br></pre></td></tr></table></figure>
+<h2 id="附加认证文件"><a href="#附加认证文件" class="headerlink" title="附加认证文件"></a>附加认证文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --cert mycert.pem https://secure.example.com</span><br></pre></td></tr></table></figure>
+<h2 id="用户名密码认证"><a href="#用户名密码认证" class="headerlink" title="用户名密码认证"></a>用户名密码认证</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -u user:password http://example.org/</span><br><span class="line">curl http://user:password@example.org/</span><br></pre></td></tr></table></figure>
+<h1 id="三、调试相关的用法"><a href="#三、调试相关的用法" class="headerlink" title="三、调试相关的用法"></a>三、调试相关的用法</h1><p>有时候编程，也可以用curl进行调试。</p>
+<h2 id="获取页面源码"><a href="#获取页面源码" class="headerlink" title="获取页面源码"></a>获取页面源码</h2><p>直接curl url就可以了。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body bgcolor=&quot;white&quot;&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="显示内容包含请求头-include或者i"><a href="#显示内容包含请求头-include或者i" class="headerlink" title="显示内容包含请求头--include或者i"></a>显示内容包含请求头<code>--include</code>或者<code>i</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --include www.sina.com</span><br><span class="line">curl -i www.sina.com</span><br></pre></td></tr></table></figure>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 301 Moved Permanently</span><br><span class="line">Server: nginx</span><br><span class="line">Date: Fri, 27 Nov 2015 08:11:26 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Location: http://www.sina.com.cn/</span><br><span class="line">Expires: Fri, 27 Nov 2015 08:13:26 GMT</span><br><span class="line">Cache-Control: max-age=120</span><br><span class="line">Age: 103</span><br><span class="line">Content-Length: 178</span><br><span class="line">X-Cache: HIT from localhost</span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;&lt;title&gt;301 Moved Permanently&lt;/title&gt;&lt;/head&gt;</span><br><span class="line">&lt;body bgcolor=&quot;white&quot;&gt;</span><br><span class="line">&lt;center&gt;&lt;h1&gt;301 Moved Permanently&lt;/h1&gt;&lt;/center&gt;</span><br><span class="line">&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="只获取请求头"><a href="#只获取请求头" class="headerlink" title="只获取请求头"></a>只获取请求头</h2><p>使用参数<code>-I, --head</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --head www.sina.com</span><br><span class="line">curl -I www.sina.com</span><br></pre></td></tr></table></figure>
+<h2 id="将结果保存到文件"><a href="#将结果保存到文件" class="headerlink" title="将结果保存到文件"></a>将结果保存到文件</h2><p><code>-o, --output &lt;file&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://&#123;one,two&#125;.site.com -o &quot;file_#1.txt&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="显示连接过程和完整请求响应信息"><a href="#显示连接过程和完整请求响应信息" class="headerlink" title="显示连接过程和完整请求响应信息"></a>显示连接过程和完整请求响应信息</h2><p><code>-v</code>参数可以显示一次http通信的整个过程，包括连接过程，请求头，响应头。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --verbose www.sina.com</span><br><span class="line">curl -v www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">* About to connect() to www.sina.com port 80 (#0)</span><br><span class="line">* Trying 61.172.201.195... connected</span><br><span class="line">* Connected to www.sina.com (61.172.201.195) port 80 (#0)</span><br><span class="line">&gt; GET / HTTP/1.1</span><br><span class="line">&gt; User-Agent: curl/7.21.3 (i686-pc-linux-gnu) libcurl/7.21.3 OpenSSL/0.9.8o zlib/1.2.3.4 libidn/1.18</span><br><span class="line">&gt; Host: www.sina.com</span><br><span class="line">&gt; Accept: */*</span><br><span class="line">&gt;</span><br><span class="line">* HTTP 1.0, assume close after body</span><br><span class="line">&lt; HTTP/1.0 301 Moved Permanently</span><br><span class="line">&lt; Date: Sun, 04 Sep 2011 00:42:39 GMT</span><br><span class="line">&lt; Server: Apache/2.0.54 (Unix)</span><br><span class="line">&lt; Location: http://www.sina.com.cn/</span><br><span class="line">&lt; Cache-Control: max-age=3600</span><br><span class="line">&lt; Expires: Sun, 04 Sep 2011 01:42:39 GMT</span><br><span class="line">&lt; Vary: Accept-Encoding</span><br><span class="line">&lt; Content-Length: 231</span><br><span class="line">&lt; Content-Type: text/html; charset=iso-8859-1</span><br><span class="line">&lt; X-Cache: MISS from sh201-19.sina.com.cn</span><br><span class="line">&lt; Connection: close</span><br><span class="line">&lt;</span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;&lt;head&gt;</span><br><span class="line">&lt;title&gt;301 Moved Permanently&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Moved Permanently&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;The document has moved &lt;a href=&quot;http://www.sina.com.cn/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;&lt;/html&gt;</span><br><span class="line">* Closing connection #0</span><br></pre></td></tr></table></figure></p>
+<h2 id="通信跟踪信息保存到文件"><a href="#通信跟踪信息保存到文件" class="headerlink" title="通信跟踪信息保存到文件"></a>通信跟踪信息保存到文件</h2><p>使用<code>--trace</code>参数，将完整的输入和输出跟踪信息，写入到文件。这个参数会覆盖 <code>-v</code>, <code>--verbose</code>和 <code>--trace-ascii</code>。<br>用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --trace output.txt www.sina.com</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --trace-ascii output.txt www.sina.com</span><br></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://curl.haxx.se/docs/manual.html" target="_blank" rel="noopener">curl manual</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/20/什么是jsonl格式/" rel="next" title="什么是jsonl格式">
+                <i class="fa fa-chevron-left"></i> 什么是jsonl格式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhuwang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#curl命令辅助编程入门"><span class="nav-number">1.</span> <span class="nav-text">curl命令辅助编程入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、发送请求"><span class="nav-number">2.</span> <span class="nav-text">一、发送请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#发送GET请求"><span class="nav-number">2.1.</span> <span class="nav-text">发送GET请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送POST请求"><span class="nav-number">2.2.</span> <span class="nav-text">发送POST请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发送数据格式为url-encoded的POST请求"><span class="nav-number">2.2.1.</span> <span class="nav-text">发送数据格式为url-encoded的POST请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post发送json格式数据"><span class="nav-number">2.2.2.</span> <span class="nav-text">post发送json格式数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送数据格式为multipart的POST请求"><span class="nav-number">2.2.3.</span> <span class="nav-text">发送数据格式为multipart的POST请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送空数据的POST请求"><span class="nav-number">2.2.4.</span> <span class="nav-text">发送空数据的POST请求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送其他类型的请求"><span class="nav-number">2.3.</span> <span class="nav-text">发送其他类型的请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分开写"><span class="nav-number">2.4.</span> <span class="nav-text">数据分开写</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、设置请求附加信息"><span class="nav-number">3.</span> <span class="nav-text">二、设置请求附加信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置请求头"><span class="nav-number">3.1.</span> <span class="nav-text">设置请求头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置referer"><span class="nav-number">3.2.</span> <span class="nav-text">设置referer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置user-agent"><span class="nav-number">3.3.</span> <span class="nav-text">设置user-agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置cookie"><span class="nav-number">3.4.</span> <span class="nav-text">设置cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向"><span class="nav-number">3.5.</span> <span class="nav-text">重定向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发送https请求"><span class="nav-number">3.6.</span> <span class="nav-text">发送https请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附加认证文件"><span class="nav-number">3.7.</span> <span class="nav-text">附加认证文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户名密码认证"><span class="nav-number">3.8.</span> <span class="nav-text">用户名密码认证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、调试相关的用法"><span class="nav-number">4.</span> <span class="nav-text">三、调试相关的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取页面源码"><span class="nav-number">4.1.</span> <span class="nav-text">获取页面源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示内容包含请求头-include或者i"><span class="nav-number">4.2.</span> <span class="nav-text">显示内容包含请求头--include或者i</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#只获取请求头"><span class="nav-number">4.3.</span> <span class="nav-text">只获取请求头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将结果保存到文件"><span class="nav-number">4.4.</span> <span class="nav-text">将结果保存到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显示连接过程和完整请求响应信息"><span class="nav-number">4.5.</span> <span class="nav-text">显示连接过程和完整请求响应信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通信跟踪信息保存到文件"><span class="nav-number">4.6.</span> <span class="nav-text">通信跟踪信息保存到文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhuwang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
